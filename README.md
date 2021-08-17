@@ -1,4 +1,4 @@
-# DS1307 Library
+# SHT1x Library
 SHT1x series sensor driver.
 - Read Temperature in Raw data, Celsius and Fahrenheit
 - Read Humidity in Raw data and percentage
