@@ -60,7 +60,7 @@ void SHT1x_SetGPIO_OUT(GPIO_TypeDef *GPIOx, uint32_t GPIO_Pin)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
 }
-									
+
 void SHT1x_SetGPIO_IN_PU(GPIO_TypeDef *GPIOx, uint32_t GPIO_Pin)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -264,4 +264,3 @@ SHT1x_Platform_Init(SHT1x_Handler_t *Handler)
 
   return SHT1x_OK;
 }
-	

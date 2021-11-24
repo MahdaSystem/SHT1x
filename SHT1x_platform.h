@@ -29,7 +29,7 @@
  */
   
 /* Define to prevent recursive inclusion ----------------------------------------*/
-#ifndef	_SHT1X_PLATFORM_H
+#ifndef _SHT1X_PLATFORM_H
 #define _SHT1X_PLATFORM_H
 
 #ifdef __cplusplus
@@ -80,8 +80,8 @@ extern "C" {
 /**
  * @brief  Specify IO Pins of ESP32 connected to SHT1x
  */
-#define SHT1x_SCK_GPIO		GPIO_NUM_17
-#define SHT1x_DATA_GPIO		GPIO_NUM_18
+#define SHT1x_SCK_GPIO    GPIO_NUM_17
+#define SHT1x_DATA_GPIO   GPIO_NUM_18
 #endif
 
 

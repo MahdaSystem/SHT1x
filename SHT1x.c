@@ -1,17 +1,17 @@
 /**
  **********************************************************************************
- * @file   SHT1x.h                                                                 
- * @author Hossein.M (https://github.com/Hossein-M98)                              
- * @brief  SHT1x series sensor driver                                              
- *         Functionalities of the this file:                                       
- *          + Read Temperature in Raw data, Celsius and Fahrenheit                 
- *          + Read Humidity in Raw data and percentage                             
- *          + Config sensor resolution                                             
- *          + Control internal heater                                              
+ * @file   SHT1x.c
+ * @author Hossein.M (https://github.com/Hossein-M98)
+ * @brief  SHT1x series sensor driver
+ *         Functionalities of the this file:
+ *          + Read Temperature in Raw data, Celsius and Fahrenheit
+ *          + Read Humidity in Raw data and percentage
+ *          + Config sensor resolution
+ *          + Control internal heater
  **********************************************************************************
- *                                                                                 
+ *
  * Copyright (c) 2021 Mahda Embedded System (MIT License)                          
- *                                                                                 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy    
  * of this software and associated documentation files (the "Software"), to deal   
  * in the Software without restriction, including without limitation the rights    
@@ -541,7 +541,7 @@ SHT1x_SoftReset(SHT1x_Handler_t *Handler)
  *         - SHT1x_LowResolution: Temperature 12-bit & Humidity 8-bit.
  *         - SHT1x_HighResolution: Temperature 14-bit & Humidity 12-bit.
  * 
- * @note	 Low resolution mode is especially useful in high speed or extreme low
+ * @note   Low resolution mode is especially useful in high speed or extreme low
  *         power applications.
  * 
  * @retval SHT1x_Result_t
@@ -614,7 +614,7 @@ SHT1x_GetResolution(SHT1x_Handler_t *Handler, SHT1x_Resolution_t *Resolution)
  * @brief  Set internal heater on or off.
  * @param  Handler: Pointer to handler
  * @param  Heater:
- *         - SHT1x_HeaterOff:	Turn off internal heater.
+ *         - SHT1x_HeaterOff: Turn off internal heater.
  *         - SHT1x_HeaterOn: Turn on internal heater.
  * 
  * @retval SHT1x_Result_t
@@ -683,9 +683,9 @@ SHT1x_GetInternalHeater(SHT1x_Handler_t *Handler, SHT1x_Heater_t *Heater)
  * @brief  Set The SHT1x power supply voltage.
  * @param  Handler: Pointer to handler
  * @param  Voltage: Sht1x power supply voltage.
- * @note	 The accuracy of temperature measurement is related to the accuracy of the
+ * @note   The accuracy of temperature measurement is related to the accuracy of the
  *         input voltage.
- * @note	 The default power supply voltage is 5V. 
+ * @note   The default power supply voltage is 5V. 
  * @retval SHT1x_Result_t
  *         - SHT1x_OK: Operation was successful.
  */

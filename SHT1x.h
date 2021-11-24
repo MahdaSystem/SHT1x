@@ -237,7 +237,7 @@ SHT1x_SoftReset(SHT1x_Handler_t *Handler);
  *         - SHT1x_LowResolution: Temperature 12-bit & Humidity 8-bit.
  *         - SHT1x_HighResolution: Temperature 14-bit & Humidity 12-bit.
  * 
- * @note	 Low resolution mode is especially useful in high speed or extreme low
+ * @note   Low resolution mode is especially useful in high speed or extreme low
  *         power applications.
  * 
  * @retval SHT1x_Result_t
@@ -269,7 +269,7 @@ SHT1x_GetResolution(SHT1x_Handler_t *Handler, SHT1x_Resolution_t *Resolution);
  * @brief  Set internal heater on or off.
  * @param  Handler: Pointer to handler
  * @param  Heater:
- *         - SHT1x_HeaterOff:	Turn off internal heater.
+ *         - SHT1x_HeaterOff: Turn off internal heater.
  *         - SHT1x_HeaterOn: Turn on internal heater.
  * 
  * @retval SHT1x_Result_t
@@ -301,9 +301,9 @@ SHT1x_GetInternalHeater(SHT1x_Handler_t *Handler, SHT1x_Heater_t *Heater);
  * @brief  Set The SHT1x power supply voltage.
  * @param  Handler: Pointer to handler
  * @param  Voltage: Sht1x power supply voltage.
- * @note	 The accuracy of temperature measurement is related to the accuracy of the
+ * @note   The accuracy of temperature measurement is related to the accuracy of the
  *         input voltage.
- * @note	 The default power supply voltage is 5V. 
+ * @note   The default power supply voltage is 5V. 
  * @retval SHT1x_Result_t
  *         - SHT1x_OK: Operation was successful.
  */
