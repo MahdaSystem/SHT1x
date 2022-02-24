@@ -71,26 +71,17 @@ void SHT1x_SetGPIO_IN_PU(GPIO_TypeDef *GPIOx, uint32_t GPIO_Pin)
   HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
 }
 #elif defined(SHT1x_PLATFORM_ESP32_IDF)
-void SHT1x_SetGPIO_OUT(uint32_t GPIO_Pad)
+void SHT1x_SetGPIO_OUT(gpio_num_t GPIO_Pad)
 {
-  gpio_config_t SHT1x_GPIO_CONF;
-  SHT1x_GPIO_CONF.pin_bit_mask = GPIO_Pad;
-  SHT1x_GPIO_CONF.mode = GPIO_MODE_OUTPUT;
-  SHT1x_GPIO_CONF.pull_up_en = GPIO_PULLUP_DISABLE;
-  SHT1x_GPIO_CONF.pull_down_en = GPIO_PULLDOWN_DISABLE;
-  SHT1x_GPIO_CONF.intr_type = GPIO_INTR_DISABLE;
-  gpio_config(&SHT1x_GPIO_CONF);
+  gpio_reset_pin(GPIO_Pad);
+  gpio_set_direction(GPIO_Pad, GPIO_MODE_OUTPUT);
 }
 
-void SHT1x_SetGPIO_IN_PU(uint32_t GPIO_Pad)
+void SHT1x_SetGPIO_IN_PU(gpio_num_t GPIO_Pad)
 {
-  gpio_config_t SHT1x_GPIO_CONF;
-  SHT1x_GPIO_CONF.pin_bit_mask = GPIO_Pad;
-  SHT1x_GPIO_CONF.mode = GPIO_MODE_DEF_INPUT;
-  SHT1x_GPIO_CONF.pull_up_en = GPIO_PULLUP_ENABLE;
-  SHT1x_GPIO_CONF.pull_down_en = GPIO_PULLDOWN_DISABLE;
-  SHT1x_GPIO_CONF.intr_type = GPIO_INTR_DISABLE;
-  gpio_config(&SHT1x_GPIO_CONF);
+  gpio_reset_pin(GPIO_Pad);
+  gpio_set_direction(GPIO_Pad, GPIO_MODE_INPUT);
+  gpio_set_pull_mode(GPIO_Pad, GPIO_PULLUP_ONLY);
 }
 #endif
 
@@ -112,7 +103,7 @@ void SHT1x_Platform_DataConfigOut(void)
 #elif defined(SHT1x_PLATFORM_STM32)
   SHT1x_SetGPIO_OUT(SHT1x_DATA_GPIO, SHT1x_DATA_PIN);
 #elif defined(SHT1x_PLATFORM_ESP32_IDF)
-  SHT1x_SetGPIO_OUT(1<<SHT1x_DATA_GPIO);
+  SHT1x_SetGPIO_OUT(SHT1x_DATA_GPIO);
 #endif
 }
 
@@ -123,7 +114,7 @@ void SHT1x_Platform_DataConfigIn(void)
 #elif defined(SHT1x_PLATFORM_STM32)
   SHT1x_SetGPIO_IN_PU(SHT1x_DATA_GPIO, SHT1x_DATA_PIN);
 #elif defined(SHT1x_PLATFORM_ESP32_IDF)
-  SHT1x_SetGPIO_IN_PU(1<<SHT1x_DATA_GPIO);
+  SHT1x_SetGPIO_IN_PU(SHT1x_DATA_GPIO);
 #endif
 }
 
@@ -182,7 +173,7 @@ void SHT1x_Platform_SckConfigOut(void)
 #elif defined(SHT1x_PLATFORM_STM32)
   SHT1x_SetGPIO_OUT(SHT1x_SCK_GPIO, SHT1x_SCK_PIN);
 #elif defined(SHT1x_PLATFORM_ESP32_IDF)
-  SHT1x_SetGPIO_OUT(1<<SHT1x_SCK_GPIO);
+  SHT1x_SetGPIO_OUT(SHT1x_SCK_GPIO);
 #endif
 }
 
