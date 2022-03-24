@@ -144,7 +144,7 @@ uint8_t SHT1x_Platform_DataRead(void)
 {
   uint8_t Result = 1;
 #if defined(SHT1x_PLATFORM_AVR)
-  Result = (DATA_PIN >> DATA_NUM) & 0x01;
+  Result = (SHT1x_DATA_PIN >> SHT1x_DATA_NUM) & 0x01;
 #elif defined(SHT1x_PLATFORM_STM32)
   Result = HAL_GPIO_ReadPin(SHT1x_DATA_GPIO, SHT1x_DATA_PIN);
 #elif defined(SHT1x_PLATFORM_ESP32_IDF)
