@@ -324,7 +324,6 @@ SHT1x_ReadHumidity(SHT1x_Handler_t *Handler, uint16_t *HumidityRaw)
 static float
 SHT1x_TempConvertRawC(SHT1x_Handler_t *Handler, uint16_t RawTemp)
 {
-  SHT1x_Result_t Result;
   const float D1 = Handler->D1Celsius;
   float D2 = 0.01;
 
@@ -382,7 +381,6 @@ static float
 SHT1x_HumConvertRawP(SHT1x_Handler_t *Handler, uint16_t RawHum, float TempC)
 {
   float realHumidity;
-  SHT1x_Result_t Result;
 
   const float c1 = -4;
   float c2 = 0.0405;
