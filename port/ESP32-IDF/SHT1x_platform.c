@@ -31,6 +31,7 @@
 /* Includes ---------------------------------------------------------------------*/
 #include "SHT1x_platform.h"
 #include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "driver/gpio.h"
 #include "rom/ets_sys.h"
 
