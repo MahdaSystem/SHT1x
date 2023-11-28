@@ -34,8 +34,8 @@
  */
 
 /* Define to prevent recursive inclusion ----------------------------------------*/
-#ifndef _SHT1X_H
-#define _SHT1X_H
+#ifndef _SHT1X_H_
+#define _SHT1X_H_
 
 #ifdef __cplusplus
 extern "C"
@@ -45,6 +45,25 @@ extern "C"
 
 /* Includes ---------------------------------------------------------------------*/
 #include <stdint.h>
+#include "SHT1x_config.h"
+
+
+/* Configurations ---------------------------------------------------------------*/
+#ifndef SHT1X_CONFIG_FAHRENHEIT_MEASUREMENT
+  #define SHT1X_CONFIG_FAHRENHEIT_MEASUREMENT 1
+#endif
+
+#ifndef SHT1X_CONFIG_RESOLUTION_CONTROL
+  #define SHT1X_CONFIG_RESOLUTION_CONTROL 1
+#endif
+
+#ifndef SHT1X_CONFIG_POWER_VOLTAGE_CONTROL
+  #define SHT1X_CONFIG_POWER_VOLTAGE_CONTROL 1
+#endif
+
+#ifndef SHT1X_CONFIG_INTERNAL_HEATER_CONTROL
+  #define SHT1X_CONFIG_INTERNAL_HEATER_CONTROL 1
+#endif
 
 
 /* Exported Data Types ----------------------------------------------------------*/
@@ -139,38 +158,6 @@ typedef enum SHT1x_Heater_e
 } SHT1x_Heater_t;
 
 
-/* Functionality Options --------------------------------------------------------*/
-/**
- * @brief  Fahrenheit measurement option
- *         - 0: Disable Fahrenheit measurement function
- *         - 1: Enable Fahrenheit measurement function
- */
-#define SHT1x_FahrenheitMeasurement 0
-
-/**
- * @brief  High resolution measurement option
- * @note   By setting this constant to 0, high resolution is selected
- *         - 0: Disable High resolution measurement
- *         - 1: Enable High resolution measurement
- */
-#define SHT1x_ResolutionControl 0
-
-/**
- * @brief  Determine how to measure the supply voltage
- *         - 0: The power supply voltage determine by SHT1x_SetPowVoltage function
- *         - 1: The power supply voltage is constant at 3.3 volts
- *         - 2: The power supply voltage is constant at 5 volts
- */
-#define SHT1x_PowerVoltageControl 0
-
-/**
- * @brief  Internal heater control option
- *         - 0: Disable internal heater control
- *         - 1: Enable internal heater control
- */
-#define SHT1x_InternalHeaterControl 0
-
-
 
 /**
  ==================================================================================
@@ -229,7 +216,7 @@ SHT1x_Result_t
 SHT1x_SoftReset(SHT1x_Handler_t *Handler);
 
 
-#if (SHT1x_ResolutionControl)
+#if (SHT1X_CONFIG_RESOLUTION_CONTROL)
 /**
  * @brief  Set Resolution of measurement.
  * @param  Handler: Pointer to handler
@@ -264,7 +251,7 @@ SHT1x_GetResolution(SHT1x_Handler_t *Handler, SHT1x_Resolution_t *Resolution);
 #endif
 
 
-#if (SHT1x_InternalHeaterControl)
+#if (SHT1X_CONFIG_INTERNAL_HEATER_CONTROL)
 /**
  * @brief  Set internal heater on or off.
  * @param  Handler: Pointer to handler
@@ -296,7 +283,7 @@ SHT1x_GetInternalHeater(SHT1x_Handler_t *Handler, SHT1x_Heater_t *Heater);
 #endif
 
 
-#if (SHT1x_PowerVoltageControl == 0)
+#if (SHT1X_CONFIG_POWER_VOLTAGE_CONTROL == 0)
 /**
  * @brief  Set The SHT1x power supply voltage.
  * @param  Handler: Pointer to handler
@@ -317,4 +304,4 @@ SHT1x_SetPowVoltage(SHT1x_Handler_t *Handler, float Voltage);
 }
 #endif
 
-#endif //! _SHT1X_H
+#endif //! _SHT1X_H_

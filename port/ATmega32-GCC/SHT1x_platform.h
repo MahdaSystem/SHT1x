@@ -44,19 +44,8 @@ extern "C" {
 
 /* Functionality Options --------------------------------------------------------*/
 /**
- * @brief  Specify the target platform
- * @note   Uncomment the line below according to the target platform
- */ 
-// #define SHT1x_PLATFORM_AVR
-// #define SHT1x_PLATFORM_STM32       // HAL Functions
-// #define SHT1x_PLATFORM_ESP32_IDF   // ESP-IDF
-
-
-#if defined(SHT1x_PLATFORM_AVR)
-/**
  * @brief  Specify IO Pins of AVR connected to TM1638
  */
-#define SHT1x_AVR_CLK   8000000UL
 #define SHT1x_DATA_DDR  DDRA
 #define SHT1x_DATA_PORT PORTA
 #define SHT1x_DATA_PIN  PINA
@@ -64,25 +53,6 @@ extern "C" {
 #define SHT1x_SCK_DDR   DDRA
 #define SHT1x_SCK_PORT  PORTA
 #define SHT1x_SCK_NUM   1
-#endif
-
-#if defined(SHT1x_PLATFORM_STM32)
-/**
- * @brief  Specify IO Pins of STM32 connected to TM1638
- */
-#define SHT1x_SCK_GPIO    GPIOA
-#define SHT1x_SCK_PIN     GPIO_PIN_0
-#define SHT1x_DATA_GPIO   GPIOA
-#define SHT1x_DATA_PIN    GPIO_PIN_1
-#endif
-
-#if defined(SHT1x_PLATFORM_ESP32_IDF)
-/**
- * @brief  Specify IO Pins of ESP32 connected to SHT1x
- */
-#define SHT1x_SCK_GPIO    GPIO_NUM_17
-#define SHT1x_DATA_GPIO   GPIO_NUM_18
-#endif
 
 
 
@@ -93,7 +63,7 @@ extern "C" {
  */
 
 /**
- * @brief  Initialize platfor device to communicate SHT1x.
+ * @brief  Initialize platform device to communicate SHT1x.
  * @retval SHT1x_Result_t
  *         - SHT1x_OK: Operation was successful.
  */

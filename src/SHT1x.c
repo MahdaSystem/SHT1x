@@ -344,7 +344,7 @@ SHT1x_TempConvertRawC(SHT1x_Handler_t *Handler, uint16_t RawTemp)
   return D1 + (D2 * RawTemp);
 }
 
-#if (SHT1x_FahrenheitMeasurement)
+#if (SHT1X_CONFIG_FAHRENHEIT_MEASUREMENT)
 /**
  * @brief  Convert raw temperature to Fahrenheit. 
  * @param  Handler: Pointer to handler
@@ -451,7 +451,7 @@ SHT1x_ReadSample(SHT1x_Handler_t *Handler, SHT1x_Sample_t *Sample)
   Sample->TempRaw = Buffer;
 
   Sample->TempCelsius = SHT1x_TempConvertRawC(Handler, Sample->TempRaw);
-#if (SHT1x_FahrenheitMeasurement)
+#if (SHT1X_CONFIG_FAHRENHEIT_MEASUREMENT)
   Sample->TempFahrenheit = SHT1x_TempConvertRawF(Handler, Sample->TempRaw);
 #endif
   Sample->HumidityPercent = SHT1x_HumConvertRawP(Handler, Sample->HumRaw,
@@ -521,7 +521,7 @@ SHT1x_SoftReset(SHT1x_Handler_t *Handler)
   if (SHT1x_SendCmd(Handler, SHT1x_CMD_SoftReset) != SHT1x_OK)
     return SHT1x_FAIL;
 
-#if (SHT1x_ResolutionControl)
+#if (SHT1X_CONFIG_RESOLUTION_CONTROL)
   Handler->ResolutionStatus = SHT1x_HighResolution;
 #endif
 
@@ -531,7 +531,7 @@ SHT1x_SoftReset(SHT1x_Handler_t *Handler)
 }
 
 
-#if (SHT1x_ResolutionControl)
+#if (SHT1X_CONFIG_RESOLUTION_CONTROL)
 /**
  * @brief  Set Resolution of measurement.
  * @param  Handler: Pointer to handler
@@ -575,7 +575,7 @@ SHT1x_SetResolution(SHT1x_Handler_t *Handler, SHT1x_Resolution_t Resolution)
 #endif
 
 
-#if (SHT1x_ResolutionControl)
+#if (SHT1X_CONFIG_RESOLUTION_CONTROL)
 /**
  * @brief  Get Resolution of measurement.
  * @param  Handler: Pointer to handler
@@ -607,7 +607,7 @@ SHT1x_GetResolution(SHT1x_Handler_t *Handler, SHT1x_Resolution_t *Resolution)
 #endif
 
 
-#if (SHT1x_InternalHeaterControl)
+#if (SHT1X_CONFIG_INTERNAL_HEATER_CONTROL)
 /**
  * @brief  Set internal heater on or off.
  * @param  Handler: Pointer to handler
@@ -646,7 +646,7 @@ SHT1x_SetInternalHeater(SHT1x_Handler_t *Handler, SHT1x_Heater_t Heater)
 #endif
 
 
-#if (SHT1x_InternalHeaterControl)
+#if (SHT1X_CONFIG_INTERNAL_HEATER_CONTROL)
 /**
  * @brief  Get internal heater state.
  * @param  Handler: Pointer to handler
@@ -676,7 +676,7 @@ SHT1x_GetInternalHeater(SHT1x_Handler_t *Handler, SHT1x_Heater_t *Heater)
 #endif
 
 
-#if (SHT1x_PowerVoltageControl)
+#if (SHT1X_CONFIG_POWER_VOLTAGE_CONTROL)
 /**
  * @brief  Set The SHT1x power supply voltage.
  * @param  Handler: Pointer to handler
@@ -692,7 +692,7 @@ SHT1x_SetPowVoltage(SHT1x_Handler_t *Handler, float Voltage)
 {
   Handler->D1Celsius = (-0.0462 * Voltage * Voltage) + (0.1672 * Voltage) - (39.682);
 
-#if (SHT1x_FahrenheitMeasurement)
+#if (SHT1X_CONFIG_FAHRENHEIT_MEASUREMENT)
   Handler->D1Fahrenheit = (-0.1249 * Voltage * Voltage) + (0.633 * Voltage) - (40.039);
 #endif
 
