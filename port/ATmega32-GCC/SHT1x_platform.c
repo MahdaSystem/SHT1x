@@ -42,34 +42,38 @@
  */
 
 static void
-SHT1x_Platform_DataDeInit(void)
+SHT1x_Platform_PlatformInit(void)
 {
-  SHT1x_DATA_PORT &= ~(1<<SHT1x_DATA_NUM);
-  SHT1x_DATA_DDR &= ~(1<<SHT1x_DATA_NUM);
-}
-
-static void
-SHT1x_Platform_DataConfigOut(void)
-{
+  SHT1x_SCK_DDR |= (1<<SHT1x_SCK_NUM);
   SHT1x_DATA_DDR |= (1<<SHT1x_DATA_NUM);
 }
 
 static void
-SHT1x_Platform_DataConfigIn(void)
+SHT1x_Platform_PlatformDeInit(void)
 {
+  SHT1x_SCK_PORT &= ~(1<<SHT1x_SCK_NUM);
+  SHT1x_SCK_DDR &= ~(1<<SHT1x_SCK_NUM);
+
+  SHT1x_DATA_PORT &= ~(1<<SHT1x_DATA_NUM);
   SHT1x_DATA_DDR &= ~(1<<SHT1x_DATA_NUM);
 }
 
 static void
-SHT1x_Platform_DataWriteHigh(void)
+SHT1x_Platform_DataConfigDir(uint8_t Dir)
 {
-  SHT1x_DATA_PORT |= (1<<SHT1x_DATA_NUM);
+  if (Dir)
+    SHT1x_DATA_DDR |= (1<<SHT1x_DATA_NUM);
+  else
+    SHT1x_DATA_DDR &= ~(1<<SHT1x_DATA_NUM);
 }
 
 static void
-SHT1x_Platform_DataWriteLow(void)
+SHT1x_Platform_DataWrite(uint8_t Level)
 {
-  SHT1x_DATA_PORT &= ~(1<<SHT1x_DATA_NUM);
+  if (Level)
+    SHT1x_DATA_PORT |= (1<<SHT1x_DATA_NUM);
+  else
+    SHT1x_DATA_PORT &= ~(1<<SHT1x_DATA_NUM);
 }
 
 static uint8_t
@@ -79,28 +83,12 @@ SHT1x_Platform_DataRead(void)
 }
 
 static void
-SHT1x_Platform_SckDeInit(void)
+SHT1x_Platform_SckWrite(uint8_t Level)
 {
-  SHT1x_SCK_PORT &= ~(1<<SHT1x_SCK_NUM);
-  SHT1x_SCK_DDR &= ~(1<<SHT1x_SCK_NUM);
-}
-
-static void
-SHT1x_Platform_SckConfigOut(void)
-{
-  SHT1x_SCK_DDR |= (1<<SHT1x_SCK_NUM);
-}
-
-static void
-SHT1x_Platform_SckWriteHigh(void)
-{
-  SHT1x_SCK_PORT |= (1<<SHT1x_SCK_NUM);
-}
-
-static void
-SHT1x_Platform_SckWriteLow(void)
-{
-  SHT1x_SCK_PORT &= ~(1<<SHT1x_SCK_NUM);
+  if (Level)
+    SHT1x_SCK_PORT |= (1<<SHT1x_SCK_NUM);
+  else
+    SHT1x_SCK_PORT &= ~(1<<SHT1x_SCK_NUM);
 }
 
 static void
@@ -133,16 +121,12 @@ SHT1x_Platform_DelayUs(uint8_t Delay)
 SHT1x_Result_t
 SHT1x_Platform_Init(SHT1x_Handler_t *Handler)
 {
-  Handler->DataDeInit = SHT1x_Platform_DataDeInit;
-  Handler->DataConfigOut = SHT1x_Platform_DataConfigOut;
-  Handler->DataConfigIn = SHT1x_Platform_DataConfigIn;
-  Handler->DataWriteHigh = SHT1x_Platform_DataWriteHigh;
-  Handler->DataWriteLow = SHT1x_Platform_DataWriteLow;
+  Handler->PlatformInit = SHT1x_Platform_PlatformInit;
+  Handler->PlatformDeInit = SHT1x_Platform_PlatformDeInit;
+  Handler->DataConfigDir = SHT1x_Platform_DataConfigDir;
+  Handler->DataWrite = SHT1x_Platform_DataWrite;
   Handler->DataRead = SHT1x_Platform_DataRead;
-  Handler->SckDeInit = SHT1x_Platform_SckDeInit;
-  Handler->SckConfigOut = SHT1x_Platform_SckConfigOut;
-  Handler->SckWriteHigh = SHT1x_Platform_SckWriteHigh;
-  Handler->SckWriteLow = SHT1x_Platform_SckWriteLow;
+  Handler->SckWrite = SHT1x_Platform_SckWrite;
   Handler->DelayMs = SHT1x_Platform_DelayMs;
   Handler->DelayUs = SHT1x_Platform_DelayUs;
 

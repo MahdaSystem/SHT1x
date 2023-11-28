@@ -98,27 +98,20 @@ typedef struct SHT1x_Handler_s
   float D1Fahrenheit;
   SHT1x_Resolution_t ResolutionStatus;
 
-  // Uninitialize the GPIO that connected to DATA PIN of SHT1x
-  void (*DataDeInit)(void);
-  // Config the GPIO that connected to DATA PIN of SHT1x as output
-  void (*DataConfigOut)(void);
-  // Config the GPIO that connected to DATA PIN of SHT1x as input
-  void (*DataConfigIn)(void);
-  // Set the GPIO that connected to DATA PIN of SHT1x
-  void (*DataWriteHigh)(void);
-  // Reset the GPIO that connected to DATA PIN of SHT1x
-  void (*DataWriteLow)(void);
+  // Initialize the platform-dependent layer
+  void (*PlatformInit)(void);
+  // Uninitialize the platform-dependent layer
+  void (*PlatformDeInit)(void);
+
+  // Config direction of the GPIO that connected to DATA PIN of SHT1x (0:Input, 1:Output)
+  void (*DataConfigDir)(uint8_t);
+  // Set value of the GPIO that connected to DATA PIN of SHT1x
+  void (*DataWrite)(uint8_t);
   // Read the GPIO that connected to DATA PIN of SHT1x
   uint8_t (*DataRead)(void);
 
-  // Uninitialize the GPIO that connected to SCK PIN of SHT1x
-  void (*SckDeInit)(void);
-  // Config the GPIO that connected to SCK PIN of SHT1x as output
-  void (*SckConfigOut)(void);
-  // Set the GPIO that connected to DATA PIN of SHT1x
-  void (*SckWriteHigh)(void);
-  // Reset the GPIO that connected to DATA PIN of SHT1x
-  void (*SckWriteLow)(void);
+  // Set value of the GPIO that connected to DATA PIN of SHT1x
+  void (*SckWrite)(uint8_t);
 
   // Delay (ms)
   void (*DelayMs)(uint8_t);

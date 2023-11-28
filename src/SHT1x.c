@@ -64,37 +64,37 @@ SHT1x_Start(SHT1x_Handler_t *Handler)
    * DATA   |_____|
    */
 
-  Handler->DataWriteHigh();
+  Handler->DataWrite(1);
   Handler->DelayUs(2);
 
-  Handler->SckWriteHigh();
+  Handler->SckWrite(1);
   Handler->DelayUs(2);
 
-  Handler->DataWriteLow();
+  Handler->DataWrite(0);
   Handler->DelayUs(2);
 
-  Handler->SckWriteLow();
+  Handler->SckWrite(0);
   Handler->DelayUs(8);
 
-  Handler->SckWriteHigh();
+  Handler->SckWrite(1);
   Handler->DelayUs(2);
 
-  Handler->DataWriteHigh();
+  Handler->DataWrite(1);
   Handler->DelayUs(2);
 
-  Handler->SckWriteLow();
+  Handler->SckWrite(0);
 }
 
 static inline void
 SHT1x_SendACK(SHT1x_Handler_t *Handler)
 {
-  Handler->DataConfigOut();
+  Handler->DataConfigDir(1);
 
-  Handler->DataWriteLow();
+  Handler->DataWrite(0);
   Handler->DelayUs(4);
-  Handler->SckWriteHigh();
+  Handler->SckWrite(1);
   Handler->DelayUs(4);
-  Handler->SckWriteLow();
+  Handler->SckWrite(0);
   Handler->DelayUs(4);
 }
 
@@ -105,10 +105,10 @@ SHT1x_SiftIn(SHT1x_Handler_t *Handler, uint8_t *Data)
 
   for (int8_t counter = 7; counter >= 0; --counter)
   {
-    Handler->SckWriteHigh();
+    Handler->SckWrite(1);
     Handler->DelayUs(4);
     DataBuff |= (Handler->DataRead() << counter);
-    Handler->SckWriteLow();
+    Handler->SckWrite(0);
     Handler->DelayUs(4);
   }
 
@@ -122,7 +122,7 @@ SHT1x_shiftDataIn(SHT1x_Handler_t *Handler, uint16_t *Data)
   uint16_t val1 = 0;
   uint8_t read1 = 0;
 
-  Handler->DataConfigIn();
+  Handler->DataConfigDir(0);
 
   SHT1x_SiftIn(Handler, &read1); // read MSB byte
 
@@ -131,7 +131,7 @@ SHT1x_shiftDataIn(SHT1x_Handler_t *Handler, uint16_t *Data)
   //Send acknowledgment to sensor that MSB byte is read
   SHT1x_SendACK(Handler);
 
-  Handler->DataConfigIn();
+  Handler->DataConfigDir(0);
 
   //read LSB byte of from the sensor
   SHT1x_SiftIn(Handler, &read1);
@@ -145,8 +145,7 @@ SHT1x_shiftDataIn(SHT1x_Handler_t *Handler, uint16_t *Data)
 static SHT1x_Result_t
 SHT1x_SendCmd(SHT1x_Handler_t *Handler, uint8_t CMD)
 {
-  Handler->DataConfigOut();
-  Handler->SckConfigOut();
+  Handler->DataConfigDir(1);
 
   //Initiate the start signal to sensor
   SHT1x_Start(Handler);
@@ -155,27 +154,27 @@ SHT1x_SendCmd(SHT1x_Handler_t *Handler, uint8_t CMD)
   for (uint8_t counter = 0; counter < 8; counter++, CMD <<= 1)
   {
     if (CMD & 0x80)
-      Handler->DataWriteHigh();
+      Handler->DataWrite(1);
     else
-      Handler->DataWriteLow();
+      Handler->DataWrite(0);
 
     Handler->DelayUs(4);
-    Handler->SckWriteHigh();
+    Handler->SckWrite(1);
 
     Handler->DelayUs(4);
-    Handler->SckWriteLow();
+    Handler->SckWrite(0);
   }
 
-  Handler->DataConfigIn();
+  Handler->DataConfigDir(0);
 
   //Check acknowledgments if the sensor has ack the cmd
   if (Handler->DataRead())
     return SHT1x_FAIL;
 
   Handler->DelayUs(4);
-  Handler->SckWriteHigh();
+  Handler->SckWrite(1);
   Handler->DelayUs(4);
-  Handler->SckWriteLow();
+  Handler->SckWrite(0);
 
   return SHT1x_OK;
 }
@@ -186,7 +185,7 @@ SHT1x_WaitForResult(SHT1x_Handler_t *Handler)
 {
   uint8_t ack = 0;
 
-  Handler->DataConfigIn();
+  Handler->DataConfigDir(0);
 
   for (uint16_t counter = 0; counter < 50; counter++)
   {
@@ -204,15 +203,15 @@ SHT1x_WaitForResult(SHT1x_Handler_t *Handler)
 static SHT1x_Result_t
 SHT1x_CheckCRC(SHT1x_Handler_t *Handler)
 {
-  Handler->DataConfigOut();
-  Handler->DataWriteHigh();
+  Handler->DataConfigDir(1);
+  Handler->DataWrite(1);
 
   for (uint8_t counter = 0; counter < 9; counter++)
   {
     Handler->DelayUs(4);
-    Handler->SckWriteHigh();
+    Handler->SckWrite(1);
     Handler->DelayUs(4);
-    Handler->SckWriteLow();
+    Handler->SckWrite(0);
   }
 
   SHT1x_Start(Handler);
@@ -241,32 +240,32 @@ SHT1x_WriteStatusRegister(SHT1x_Handler_t *Handler, uint8_t Reg)
   if (SHT1x_SendCmd(Handler, SHT1x_CMD_WriteStatusRegister) != SHT1x_OK)
     return SHT1x_FAIL;
 
-  Handler->DataConfigOut();
+  Handler->DataConfigDir(1);
 
   for (uint8_t counter = 0; counter < 8; counter++, Reg <<= 1)
   {
     if (Reg & 0x80)
-      Handler->DataWriteHigh();
+      Handler->DataWrite(1);
     else
-      Handler->DataWriteLow();
+      Handler->DataWrite(0);
 
     Handler->DelayUs(4);
-    Handler->SckWriteHigh();
+    Handler->SckWrite(1);
 
     Handler->DelayUs(4);
-    Handler->SckWriteLow();
+    Handler->SckWrite(0);
   }
 
-  Handler->DataConfigIn();
+  Handler->DataConfigDir(0);
 
   //Check acknowledgments if the sensor has ack the cmd
   if (Handler->DataRead())
     return SHT1x_FAIL;
 
   Handler->DelayUs(4);
-  Handler->SckWriteHigh();
+  Handler->SckWrite(1);
   Handler->DelayUs(4);
-  Handler->SckWriteLow();
+  Handler->SckWrite(0);
 
   return SHT1x_OK;
 }
@@ -277,7 +276,7 @@ SHT1x_ReadTemp(SHT1x_Handler_t *Handler, uint16_t *TempRaw)
   if (SHT1x_SendCmd(Handler, SHT1x_CMD_MeasureTemperature) != SHT1x_OK)
     return SHT1x_FAIL;
 
-  Handler->DataConfigIn();
+  Handler->DataConfigDir(0);
 
   //check if sensor has started measuring data after ack
   if (!Handler->DataRead())
@@ -297,14 +296,13 @@ SHT1x_ReadTemp(SHT1x_Handler_t *Handler, uint16_t *TempRaw)
 static SHT1x_Result_t
 SHT1x_ReadHumidity(SHT1x_Handler_t *Handler, uint16_t *HumidityRaw)
 {
-  Handler->DataConfigIn();
-  Handler->SckConfigOut();
+  Handler->DataConfigDir(0);
 
   // send cmd to read humidity to sensor
   if (SHT1x_SendCmd(Handler, SHT1x_CMD_MeasureHumidity) != SHT1x_OK)
     return SHT1x_FAIL;
 
-  Handler->DataConfigIn();
+  Handler->DataConfigDir(0);
 
   //check if sensor has started measuring data after ack
   if (!Handler->DataRead())
@@ -487,6 +485,9 @@ SHT1x_Init(SHT1x_Handler_t *Handler)
 
   Handler->ResolutionStatus = SHT1x_HighResolution;
 
+  if (Handler->PlatformInit)
+    Handler->PlatformInit();
+
   return SHT1x_OK;
 }
 
@@ -500,8 +501,8 @@ SHT1x_Init(SHT1x_Handler_t *Handler)
 SHT1x_Result_t
 SHT1x_DeInit(SHT1x_Handler_t *Handler)
 {
-  Handler->DataDeInit();
-  Handler->SckDeInit();
+  if (Handler->PlatformDeInit)
+    Handler->PlatformDeInit();
 
   return SHT1x_OK;
 }
